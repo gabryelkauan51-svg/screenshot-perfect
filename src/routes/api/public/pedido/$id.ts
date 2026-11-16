@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PRODUTOS } from "@/lib/loja/produtos";
+import { getProduto } from "@/lib/loja/produtos";
 
 export const Route = createFileRoute("/api/public/pedido/$id")({
   server: {
@@ -18,7 +18,8 @@ export const Route = createFileRoute("/api/public/pedido/$id")({
           if (again.data) p = again.data;
         }
         const out: Record<string, string> = { status: p.status };
-        if (p.status === "paid") { out.produto = PRODUTOS[p.produto].nome; out.entrega = PRODUTOS[p.produto].entrega; }
+        const prod = getProduto(p.produto);
+        if (p.status === "paid" && prod) { out.produto = prod.nome; out.entrega = prod.entrega; }
         return Response.json(out);
       },
     },

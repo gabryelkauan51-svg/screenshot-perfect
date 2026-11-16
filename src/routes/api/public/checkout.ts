@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { PRODUTOS } from "@/lib/loja/produtos";
+import { getProduto } from "@/lib/loja/produtos";
 
 const Body = z.object({
   produto: z.string().max(20),
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/public/checkout")({
           return erro(400, campo === "email" ? "E-mail inválido." : campo === "nome" ? "Nome inválido." : "Dados inválidos.");
         }
         const { produto, nome, email } = parsed.data;
-        const prod = PRODUTOS[produto];
+        const prod = getProduto(produto);
         if (!prod) return erro(400, "Produto inválido.");
         const fone = parsed.data.whatsapp.replace(/\D/g, "");
         if (fone.length < 10 || fone.length > 13) return erro(400, "WhatsApp inválido.");
