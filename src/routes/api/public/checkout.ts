@@ -47,7 +47,8 @@ export const Route = createFileRoute("/api/public/checkout")({
             amount: prod.preco,
             description: `Pedido ${id.slice(0, 8)}`,
             external_id: id,
-            webhook_url: `${origin}/api/public/webhooks/smokepay`,
+            // sem endereço público (teste local) o status é conferido pela consulta
+            ...(origin.startsWith("https://") ? { webhook_url: `${origin}/api/public/webhooks/smokepay` } : {}),
             expiration: 1800,
           });
           const t = r.transaction;

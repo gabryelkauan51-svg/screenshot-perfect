@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Store page is static `public/loja.html` (iframed at `/`); checkout, order status and SmokePay webhook live under `src/routes/api/public/*` with orders in `public.pedidos` (service-role only) — keeps the original page untouched and prices server-authoritative in `src/lib/loja/produtos.ts`.
