@@ -30,7 +30,7 @@ export const Route = createFileRoute("/api/public/checkout")({
         if (fone.length < 10 || fone.length > 13) return erro(400, "WhatsApp inválido.");
 
         const s = await db();
-        const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "?";
+        const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "?";
         const { count } = await s.from("pedidos").select("id", { count: "exact", head: true })
           .eq("ip", ip).gte("criado", new Date(Date.now() - 60000).toISOString());
         if ((count ?? 0) >= 8) return erro(429, "Muitas tentativas. Aguarde um minuto.");
