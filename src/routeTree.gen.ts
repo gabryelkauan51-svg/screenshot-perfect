@@ -10,33 +10,77 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicCheckoutRouteImport } from './routes/api/public/checkout'
+import { Route as ApiPublicPedidoIdRouteImport } from './routes/api/public/pedido/$id'
+import { Route as ApiPublicWebhooksSmokepayRouteImport } from './routes/api/public/webhooks/smokepay'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCheckoutRoute = ApiPublicCheckoutRouteImport.update({
+  id: '/api/public/checkout',
+  path: '/api/public/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPedidoIdRoute = ApiPublicPedidoIdRouteImport.update({
+  id: '/api/public/pedido/$id',
+  path: '/api/public/pedido/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWebhooksSmokepayRoute =
+  ApiPublicWebhooksSmokepayRouteImport.update({
+    id: '/api/public/webhooks/smokepay',
+    path: '/api/public/webhooks/smokepay',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/checkout': typeof ApiPublicCheckoutRoute
+  '/api/public/pedido/$id': typeof ApiPublicPedidoIdRoute
+  '/api/public/webhooks/smokepay': typeof ApiPublicWebhooksSmokepayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/checkout': typeof ApiPublicCheckoutRoute
+  '/api/public/pedido/$id': typeof ApiPublicPedidoIdRoute
+  '/api/public/webhooks/smokepay': typeof ApiPublicWebhooksSmokepayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/checkout': typeof ApiPublicCheckoutRoute
+  '/api/public/pedido/$id': typeof ApiPublicPedidoIdRoute
+  '/api/public/webhooks/smokepay': typeof ApiPublicWebhooksSmokepayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/public/checkout'
+    | '/api/public/pedido/$id'
+    | '/api/public/webhooks/smokepay'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/public/checkout'
+    | '/api/public/pedido/$id'
+    | '/api/public/webhooks/smokepay'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/public/checkout'
+    | '/api/public/pedido/$id'
+    | '/api/public/webhooks/smokepay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicCheckoutRoute: typeof ApiPublicCheckoutRoute
+  ApiPublicPedidoIdRoute: typeof ApiPublicPedidoIdRoute
+  ApiPublicWebhooksSmokepayRoute: typeof ApiPublicWebhooksSmokepayRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +92,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/checkout': {
+      id: '/api/public/checkout'
+      path: '/api/public/checkout'
+      fullPath: '/api/public/checkout'
+      preLoaderRoute: typeof ApiPublicCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pedido/$id': {
+      id: '/api/public/pedido/$id'
+      path: '/api/public/pedido/$id'
+      fullPath: '/api/public/pedido/$id'
+      preLoaderRoute: typeof ApiPublicPedidoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhooks/smokepay': {
+      id: '/api/public/webhooks/smokepay'
+      path: '/api/public/webhooks/smokepay'
+      fullPath: '/api/public/webhooks/smokepay'
+      preLoaderRoute: typeof ApiPublicWebhooksSmokepayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicCheckoutRoute: ApiPublicCheckoutRoute,
+  ApiPublicPedidoIdRoute: ApiPublicPedidoIdRoute,
+  ApiPublicWebhooksSmokepayRoute: ApiPublicWebhooksSmokepayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
