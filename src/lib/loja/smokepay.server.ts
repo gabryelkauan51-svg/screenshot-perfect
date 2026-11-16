@@ -7,7 +7,7 @@ export class SmokeError extends Error {
 
 // Repete só o que é temporário. A criação é segura de repetir porque usa external_id.
 export async function smoke(method: string, path: string, body?: unknown): Promise<any> {
-  const key = process.env.SMOKEPAY_API_KEY;
+  const key = process.env["SMOKEPAY_API_KEY"];
   if (!key) throw new SmokeError(401, "SMOKEPAY_API_KEY ausente");
   const MAX = 4;
   for (let i = 0; i < MAX; i++) {
@@ -16,7 +16,7 @@ export async function smoke(method: string, path: string, body?: unknown): Promi
       res = await fetch(BASE + path, {
         method,
         headers: { "x-api-key": key, "Content-Type": "application/json" },
-        body: body ? JSON.stringify(body) : undefined,
+        body: body ? JSON.stringify(body) : null,
         signal: AbortSignal.timeout(15000),
       });
     } catch (e) {

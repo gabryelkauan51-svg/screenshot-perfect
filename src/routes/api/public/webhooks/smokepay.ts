@@ -7,7 +7,7 @@ export const Route = createFileRoute("/api/public/webhooks/smokepay")({
       POST: async ({ request }) => {
         const { assinaturaValida } = await import("@/lib/loja/smokepay.server");
         const { db, marcarPago } = await import("@/lib/loja/pedidos.server");
-        const secret = process.env.SMOKEPAY_WEBHOOK_SECRET;
+        const secret = process.env["SMOKEPAY_WEBHOOK_SECRET"];
         const raw = await request.text();
         if (!secret || raw.length > 100_000 || !(await assinaturaValida(raw, request.headers.get("x-webhook-signature"), secret))) {
           return new Response(null, { status: 401 });

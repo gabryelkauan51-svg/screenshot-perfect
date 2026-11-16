@@ -19,7 +19,7 @@ export const Route = createFileRoute("/api/public/pedido/$id")({
         }
         const out: Record<string, string> = { status: p.status };
         const prod = getProduto(p.produto);
-        if (p.status === "paid" && prod) { out.produto = prod.nome; out.entrega = prod.entrega; }
+        if (p.status === "paid" && prod) { out["produto"] = prod.nome; out["entrega"] = prod.entrega; }
         return Response.json(out);
       },
     },

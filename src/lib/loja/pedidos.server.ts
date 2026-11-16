@@ -11,7 +11,8 @@ export async function marcarPago(id: string) {
   // idempotente: só muda se ainda não estiver pago
   const { data } = await s.from("pedidos").update({ status: "paid", paid_at: new Date().toISOString() })
     .eq("id", id).neq("status", "paid").select("id, produto, email");
-  if (data?.length) console.log(`[pago] pedido ${id} · ${getProduto(data[0].produto)?.nome} · ${data[0].email}`);
+  const row = data?.[0];
+  if (row) console.log(`[pago] pedido ${id} · ${getProduto(row.produto)?.nome} · ${row.email}`);
 }
 
 export async function reconciliar(p: { id: string; valor: number }) {
