@@ -249,7 +249,7 @@ $("pay").onclick=async()=>{
   if(fone.replace(/\D/g,"").length<10){$("err").textContent="Digite o WhatsApp com DDD.";return}
   $("err").textContent="";$("pay").disabled=true;$("pay").textContent="Gerando Pix…";
   try{
-    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({produto:cur.id,nome,email,whatsapp:fone})});
+    const r=await fetch("/api/public/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({produto:cur.id,nome,email,whatsapp:fone})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.erro||"Não foi possível gerar o Pix.");
     $("qr").src=d.qr_code_base64;$("pixcode").textContent=d.pix_copia_cola;
@@ -267,7 +267,7 @@ function acompanhar(id,expira){
   timer=setInterval(async()=>{
     if(Date.now()>expira+30000){clearInterval(timer);$("pixinfo").textContent="Este Pix expirou. Feche e gere um novo.";return}
     try{
-      const r=await fetch("/api/pedido/"+id);const j=await r.json();
+      const r=await fetch("/api/public/pedido/"+id);const j=await r.json();
       if(j.status==="paid"){clearInterval(timer);$("entrega").href=j.entrega;etapa("stOk")}
       else if(j.status==="expired"||j.status==="cancelled"){clearInterval(timer);$("pixinfo").textContent="Este Pix expirou. Feche e gere um novo."}
     }catch(e){/* tenta de novo no próximo ciclo */}
